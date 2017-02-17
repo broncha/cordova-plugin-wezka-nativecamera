@@ -153,8 +153,11 @@ public class NativeCameraLauncher extends CordovaPlugin {
 				// Read in bitmap of captured image
 				Bitmap bitmap;
 				try {
-					bitmap = android.provider.MediaStore.Images.Media
-							.getBitmap(this.cordova.getActivity().getContentResolver(), imageUri);
+                    BitmapFactory.Options options = new BitmapFactory.Options();
+                    options.inSampleSize = 8;
+                    bitmap = BitmapFactory.decodeStream(this.cordova.getActivity().getContentResolver().openInputStream(imageUri), null, options);
+					//bitmap = android.provider.MediaStore.Images.Media
+							//.getBitmap(this.cordova.getActivity().getContentResolver(), imageUri);
 				} catch (FileNotFoundException e) {
 					Uri uri = intent.getData();
 					android.content.ContentResolver resolver = this.cordova.getActivity().getContentResolver();
